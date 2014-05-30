@@ -10,7 +10,7 @@ public class ClusterInstancesApp {
     public static void main(String[] args) {
         Set<HazelcastInstance> allHazelcastInstances = Hazelcast.getAllHazelcastInstances();
         System.out.println("Instances:");
-        for (HazelcastInstance instance : allHazelcastInstances){
+        for (HazelcastInstance instance : allHazelcastInstances) {
             System.out.println(instance);
         }
     }

@@ -1,15 +1,14 @@
 package pl.softur.hazelcastdemo.core.bin;
 
 import com.hazelcast.config.Config;
-import com.hazelcast.core.*;
+import com.hazelcast.core.Hazelcast;
+import com.hazelcast.core.HazelcastInstance;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.context.annotation.ComponentScan;
 
-import java.util.List;
 import java.util.Map;
 import java.util.Queue;
-import java.util.Set;
 
 @ComponentScan
 @EnableAutoConfiguration

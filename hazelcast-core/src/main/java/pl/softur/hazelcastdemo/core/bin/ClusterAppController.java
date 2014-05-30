@@ -8,11 +8,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import pl.softur.hazelcastdemo.tasks.EchoDto;
 import pl.softur.hazelcastdemo.tasks.EchoTask;
+import pl.softur.hazelcastdemo.tasks.UUIDGenerationJob;
 
-import javax.servlet.http.HttpServletResponse;
 import java.text.DecimalFormat;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Future;
 
 
 @Controller
@@ -22,7 +24,7 @@ public class ClusterAppController {
 
     @RequestMapping("/")
     @ResponseBody
-    public String home(final HttpServletResponse response) throws InterruptedException {
+    public String home() throws InterruptedException {
         final IExecutorService ex = ClusterApp.getHzInstance().getExecutorService("default");
         final EchoTask m = new EchoTask("Broadcast");
         final Map<Member, Object> obj = new HashMap<Member, Object>();
@@ -49,6 +51,21 @@ public class ClusterAppController {
             obj.wait();
         }
         return writeResponse(obj);
+    }
+
+
+    @RequestMapping("/uuid")
+    @ResponseBody
+    public String uuid() throws InterruptedException {
+        final IExecutorService ex = ClusterApp.getHzInstance().getExecutorService("default");
+        final UUIDGenerationJob job = new UUIDGenerationJob();
+        Future<String> submit = ex.submit(job);
+        try {
+            String s = submit.get();
+            return s;
+        } catch (ExecutionException e) {
+            return e.toString();
+        }
     }
 
     private String writeResponse(Map<Member, Object> map) {

@@ -5,6 +5,7 @@
 .classpath
 .settings
 
+uuid/**
 target/
 .idea/
 .DS_Store
